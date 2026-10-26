@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getUserList, addUser, editUser, delUser } from '../api/user'
+import { getUserList, addUser, editUser, delUser, batchDeleteUsers } from '../api/user'
 import UserFormDialog from '../components/UserFormDialog.vue'
 
 export default {
@@ -150,8 +150,8 @@ export default {
 
       this.deleting = true
       try {
-        for (const id of ids) await delUser(id)
-        this.$message.success(`成功删除 ${ids.length} 条数据`)
+        const res = await batchDeleteUsers(ids)
+        this.$message.success(res.msg || `成功删除 ${ids.length} 条数据`)
       } catch (error) {
         this.$message.error(`删除中断：${error.message || '请求失败'}`)
       } finally {

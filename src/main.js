@@ -5,7 +5,6 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import { House, User, Plus } from '@element-plus/icons-vue'
-import './mock'
 
 const app = createApp(App)
 app.component('House', House)

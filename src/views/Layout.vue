@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { logout as logoutApi } from '../api/auth'
+
 export default {
   name: "Layout",
   computed: {
@@ -49,8 +51,13 @@ export default {
     }
   },
   methods: {
-    handleLogout() {
-      //清空登录信息，跳转到登录页
+    async handleLogout() {
+      // 通知后端销毁 Redis 中的 token，再清空本地登录信息
+      try {
+        await logoutApi()
+      } catch (e) {
+        // 即使后端调用失败（如 token 已失效），本地也照常退出
+      }
       this.$store.commit("clearUserInfo")
       this.$router.push("/login")
     }
